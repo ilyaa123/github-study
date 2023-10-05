@@ -1,0 +1,40 @@
+{
+	"root": true,
+	"env": {
+		"browser": true,
+		"node": true
+	},
+	"parser": "vue-eslint-parser",
+	"parserOptions": {
+		"parser": "@typescript-eslint/parser"
+	},
+	"extends": [
+		"@nuxtjs/eslint-config-typescript",
+		"plugin:prettier/recommended"
+	],
+	"rules": {
+		"vue/multi-word-component-names": "off",
+		"indent": [2, "tab"],
+		"vue/v-on-event-hyphenation": [
+			"error",
+			"always",
+			{
+				"autofix": false,
+				"ignore": []
+			}
+		],
+		"vue/component-name-in-template-casing": [
+			"error",
+			"kebab-case",
+			{
+				"registeredComponentsOnly": true
+			}
+		],
+		"prettier/prettier": [
+			"error",
+			{
+				"endOfLine": "auto"
+			}
+		]
+	}
+}
