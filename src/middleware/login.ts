@@ -15,8 +15,8 @@ export default defineNuxtRouteMiddleware(async (to) => {
 				}
 			);
 			if (result?.access_token) {
-				const cookie = useCookie('token');
-				cookie.value = result.access_token;
+				const { onLogin } = useApollo();
+				onLogin(result.access_token);
 				return navigateTo('/');
 			} else {
 				return navigateTo('/login');

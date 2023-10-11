@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 definePageMeta({
 	layout: 'session',
-	middleware: ['login']
+	middleware: ['login'],
+	authGuard: false
 });
 
 const { githubClientID } = useRuntimeConfig().public;

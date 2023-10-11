@@ -10,6 +10,7 @@
 <style lang="css" scoped>
 .container {
 	min-height: 100dvh;
+	max-width: 100%;
 }
 .wrapper {
 	width: 100%;

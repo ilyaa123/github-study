@@ -2,6 +2,21 @@
 export default defineNuxtConfig({
 	devtools: { enabled: true },
 	srcDir: 'src',
+	app: {
+		head: {
+			charset: 'utf-8',
+			viewport: 'width=device-width, initial-scale=1',
+			title: 'GitHub Lite'
+		},
+		pageTransition: {
+			name: 'page',
+			mode: 'out-in'
+		},
+		layoutTransition: {
+			name: 'layout',
+			mode: 'out-in'
+		}
+	},
 	runtimeConfig: {
 		public: {
 			baseGithubApi: process.env.NUXT_BASE_GITHUB_API,
@@ -17,12 +32,21 @@ export default defineNuxtConfig({
 		'@nuxtjs/eslint-module',
 		'@element-plus/nuxt',
 		'@nuxtjs/apollo',
-		'@unocss/nuxt'
+		'@unocss/nuxt',
+		'nuxt-icon'
 	],
 	elementPlus: {
 		importStyle: 'scss',
-		icon: 'ElIcon',
-		themes: ['dark']
+		icon: 'ElIcon'
+	},
+	vite: {
+		css: {
+			preprocessorOptions: {
+				scss: {
+					additionalData: `@use "@/assets/scss/element/index.scss" as element;`
+				}
+			}
+		}
 	},
 	unocss: {
 		uno: true,

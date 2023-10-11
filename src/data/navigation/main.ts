@@ -7,12 +7,21 @@ interface mainNavigationItem {
 const mainNavigation = (): mainNavigationItem[] => {
 	return [
 		{
-			text: 'Home',
-			path: '/'
+			text: 'Repositories',
+			path: '/repositories',
+			icon: 'mdi:database'
 		},
 		{
-			text: 'Repositories',
-			path: '/repositories'
+			text: 'Projects',
+			icon: 'tabler:bookmarks-filled'
+		},
+		{
+			text: 'Packages',
+			icon: 'material-symbols:package-2-sharp'
+		},
+		{
+			text: 'Stars',
+			icon: 'material-symbols:stars-outline'
 		}
 	];
 };
