@@ -7,27 +7,27 @@ const props = defineProps<Props>();
 
 const router = useRouter();
 
-const { getToken } = useApollo();
-
-const token = getToken();
+const token = useCookie('gitToken');
 
 const isAutentificated = computed(() => {
-	return !!token;
+	return !!token.value;
 });
+
+const checkedAuth = () => {
+	if (!props.guard && !!isAutentificated.value) {
+		router.push('/');
+	}
+};
 
 watch(
 	() => props.guard,
 	() => {
-		if (!props.guard && isAutentificated.value) {
-			router.push('/');
-		}
+		checkedAuth();
 	}
 );
 
 onMounted(() => {
-	if (!props.guard && isAutentificated.value) {
-		router.push('/');
-	}
+	checkedAuth();
 });
 </script>
 <template>

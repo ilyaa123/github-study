@@ -60,7 +60,8 @@ export default defineNuxtConfig({
 			default: {
 				httpEndpoint:
 					process.env.NUXT_BASE_GITHUB_API + '/graphql' ||
-					'https://api.github.com/graphql'
+					'https://api.github.com/graphql',
+				tokenName: 'gitToken'
 			}
 		}
 	}
