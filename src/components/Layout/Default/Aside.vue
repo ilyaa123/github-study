@@ -15,7 +15,7 @@ const navigation = computed(() => mainNavigation());
 			</el-menu-item>
 			<template v-for="(item, index) in navigation" :key="index">
 				<el-menu-item :index="item.path">
-					<el-icon :size="24" v-if="item?.icon"
+					<el-icon v-if="item?.icon" :size="24"
 						><Icon :name="item?.icon" style="color: inherit"
 					/></el-icon>
 					<template #title>

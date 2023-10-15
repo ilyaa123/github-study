@@ -63,6 +63,7 @@ export default defineNuxtConfig({
 					'https://api.github.com/graphql',
 				tokenName: 'gitToken'
 			}
-		}
+		},
+		autoImports: true
 	}
 });

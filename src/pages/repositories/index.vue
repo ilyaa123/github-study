@@ -1,42 +1,25 @@
 <script setup lang="ts">
-const queryRepositories = gql`
-	query {
-		viewer {
-			repositories(
-				first: 100
-				orderBy: { field: CREATED_AT, direction: DESC }
-			) {
-				nodes {
-					id
-					name
-					updatedAt
-					description
-					primaryLanguage {
-						color
-						name
-					}
-					forks {
-						totalCount
-					}
-					stargazers {
-						totalCount
-					}
-				}
-			}
-		}
-	}
-`;
+import repositoriesQuery from '~/graphql/repositories.gql';
 
-const { data, pending } = useAsyncQuery(queryRepositories);
-console.log('🚀 ~ file: index.vue:31 ~ data:', data);
+const count = ref<number>(8);
+
+const { result, loading } = useQuery(repositoriesQuery, {
+	limit: count.value
+});
+
+const repositories = computed(() => {
+	return result.value?.viewer.repositories.nodes;
+});
 </script>
 
 <template>
 	<div>
 		<h1>Repositories</h1>
-		<Repositories
-			:isLoading="pending"
-			:repositories="data?.viewer.repositories.nodes"
-		/>
+		<RepositoriesFilter>
+			<Repositories
+				:is-loading="!!loading.value"
+				:repositories="repositories"
+			/>
+		</RepositoriesFilter>
 	</div>
 </template>

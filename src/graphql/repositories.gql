@@ -1,0 +1,25 @@
+query repositories($limit: Int!) {
+	viewer {
+		repositories(
+			first: $limit
+			orderBy: { field: CREATED_AT, direction: DESC }
+		) {
+			nodes {
+				id
+				name
+				updatedAt
+				description
+				primaryLanguage {
+					color
+					name
+				}
+				forks {
+					totalCount
+				}
+				stargazers {
+					totalCount
+				}
+			}
+		}
+	}
+}
