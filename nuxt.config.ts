@@ -65,5 +65,8 @@ export default defineNuxtConfig({
 			}
 		},
 		autoImports: true
+	},
+	build: {
+		transpile: ['tslib']
 	}
 });
