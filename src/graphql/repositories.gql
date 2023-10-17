@@ -1,8 +1,13 @@
-query repositories($limit: Int!) {
+query repositories(
+	$limit: Int!
+	$privacy: RepositoryPrivacy
+	$sort: RepositoryOrderField!
+) {
 	viewer {
 		repositories(
+			privacy: $privacy
 			first: $limit
-			orderBy: { field: CREATED_AT, direction: DESC }
+			orderBy: { field: $sort, direction: DESC }
 		) {
 			nodes {
 				id
