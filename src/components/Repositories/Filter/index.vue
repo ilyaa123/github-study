@@ -1,25 +1,21 @@
 <script setup lang="ts">
+import type { Filter } from '~/types/repositories/filter';
+
 interface Emits {
-	(event: 'changeFilter', filter: { type: string; sort: string }): void;
+	(event: 'changeFilter', filter: Filter): void;
 }
 
 const emits = defineEmits<Emits>();
 
 interface Props {
-	filter: {
-		type: string;
-		sort: string;
-	};
+	filter: Filter;
 }
 
 const props = defineProps<Props>();
 
-const handleOnUpdate = (
-	key: keyof typeof props.filter,
-	value: (typeof props.filter)[keyof typeof props.filter]
-) => {
+const handleOnUpdate = (key: keyof Filter, value: Filter[keyof Filter]) => {
 	const updatedFilter = props.filter;
-	updatedFilter[key] = value;
+	updatedFilter[key] = value as never;
 	emits('changeFilter', updatedFilter);
 };
 </script>

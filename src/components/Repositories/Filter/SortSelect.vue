@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import type { RepositoryOrderField } from '~/types/repositories/filter';
+
 interface Props {
-	sort: string;
+	sort: RepositoryOrderField;
 }
 
 interface Emits {
-	(event: 'change', key: 'sort', value: string): void;
+	(event: 'change', key: 'sort', value: RepositoryOrderField): void;
 }
 
 defineProps<Props>();

@@ -1,18 +1,9 @@
 <script setup lang="ts">
+import type { GetRepositoryItem } from '~/types/repositories';
+
 interface Props {
 	isLoading: boolean;
-	repositories?: {
-		id: string;
-		name: string;
-		updatedAt: string;
-		description: string | null;
-		primaryLanguage: {
-			color: string;
-			name: string;
-		} | null;
-		forks: { totalCount: number };
-		stargazers: { totalCount: number };
-	}[];
+	repositories?: GetRepositoryItem[];
 }
 
 const props = defineProps<Props>();
@@ -27,6 +18,7 @@ const props = defineProps<Props>();
 			class="mb-2"
 		>
 			<RepositoriesCard
+				:id="repositoriy.id"
 				class="w-100%"
 				:name="repositoriy.name"
 				:updated-at="repositoriy.updatedAt"

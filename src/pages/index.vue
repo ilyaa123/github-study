@@ -1,17 +1,22 @@
 <script setup lang="ts">
-import repositoriesQuery from '~/graphql/repositories.gql';
+import repositoriesQuery from '~/graphql/repositories/get.gql';
+
+import type { GetRepositoryItem } from '~/types/repositories';
+import type { Filter } from '~/types/repositories/filter';
 
 const route = useRoute();
 const router = useRouter();
 
-const filter = reactive({
-	type: route.query.type || 'PUBLIC',
-	sort: route.query.sort || 'UPDATED_AT'
+const filter = reactive<Filter>({
+	type: (route.query?.type as Partial<Filter['type']>) || 'PUBLIC',
+	sort: (route.query?.sort as Partial<Filter['sort']>) || 'UPDATED_AT'
 });
 
-const count = ref<number>(8);
+const count = ref<number>(100);
 
-const { result, loading, refetch } = useQuery(repositoriesQuery, {
+const { result, loading, refetch } = useQuery<{
+	viewer: { repositories: { nodes: GetRepositoryItem[] } };
+}>(repositoriesQuery, {
 	limit: count.value,
 	privacy: filter?.type || 'PUBLIC',
 	sort: filter?.sort || 'UPDATED_AT'
@@ -21,7 +26,7 @@ const repositories = computed(() => {
 	return result.value?.viewer?.repositories.nodes;
 });
 
-const changeFilter = (filter: { type: string; sort: string }) => {
+const changeFilter = (filter: Filter) => {
 	router.push({
 		path: '/',
 		query: {

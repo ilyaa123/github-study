@@ -1,17 +1,7 @@
 <script setup lang="ts">
-interface Props {
-	name: string;
-	updatedAt: string;
-	description: string | null;
-	primaryLanguage: {
-		color: string;
-		name: string;
-	} | null;
-	forks: { totalCount: number };
-	stargazers: { totalCount: number };
-}
+import type { GetRepositoryItem } from '~/types/repositories';
 
-const props = defineProps<Props>();
+const props = defineProps<GetRepositoryItem>();
 </script>
 <template>
 	<el-card>

@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import type { RepositoryPrivacy } from '~/types/repositories/filter';
+
 interface Props {
-	type: string;
+	type: RepositoryPrivacy;
 }
 
 interface Emits {
-	(event: 'change', key: 'type', value: string): void;
+	(event: 'change', key: 'type', value: RepositoryPrivacy): void;
 }
 
 defineProps<Props>();
