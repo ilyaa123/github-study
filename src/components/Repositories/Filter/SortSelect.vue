@@ -16,7 +16,6 @@ const emits = defineEmits<Emits>();
 		:model-value="sort"
 		size="large"
 		placeholder="Soted by"
-		style="width: 100%"
 		@change="(e) => emits('change', 'sort', e)"
 	>
 		<el-option label="Created" value="CREATED_AT" />

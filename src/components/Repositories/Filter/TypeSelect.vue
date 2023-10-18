@@ -16,7 +16,6 @@ const emits = defineEmits<Emits>();
 		:model-value="type"
 		size="large"
 		placeholder="Type"
-		style="width: 100%"
 		@change="(e) => emits('change', 'type', e)"
 	>
 		<el-option label="Public" value="PUBLIC" />

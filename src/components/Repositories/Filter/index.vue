@@ -26,24 +26,16 @@ const handleOnUpdate = (
 <template>
 	<div>
 		<el-row class="mb-2">
-			<el-col :span="11"> </el-col>
-			<el-col :span="6" class="mr-1">
-				<RepositoriesFilterTypeSelect
-					:type="filter.type"
-					@change="handleOnUpdate"
-				/>
-			</el-col>
-			<el-col :span="6">
-				<RepositoriesFilterSortSelect
-					:sort="filter.sort"
-					@change="handleOnUpdate"
-				/>
-			</el-col>
-		</el-row>
-		<el-row>
-			<el-col :span="24">
-				<slot />
-			</el-col>
+			<RepositoriesFilterTypeSelect
+				:type="filter.type"
+				@change="handleOnUpdate"
+			/>
+			<RepositoriesFilterSortSelect
+				:sort="filter.sort"
+				class="ml-1"
+				@change="handleOnUpdate"
+			/>
+			<slot />
 		</el-row>
 	</div>
 </template>
