@@ -47,13 +47,8 @@ watch(filter, () => {
 
 <template>
 	<div>
-		<el-page-header class="header-page" :icon="''" content="mb-4">
-			<template #content>
-				<div class="flex items-center">
-					<span class="text-large font-600 mr-3"> Repositories </span>
-				</div>
-			</template>
-			<template #extra>
+		<GlobalPageHeader title="Repositories" :is-back="false">
+			<template #action>
 				<RepositoriesFilter
 					:filter="filter"
 					@change-filter="changeFilter"
@@ -71,8 +66,7 @@ watch(filter, () => {
 					</el-button>
 				</RepositoriesFilter>
 			</template>
-			<template #default />
-		</el-page-header>
+		</GlobalPageHeader>
 		<Repositories :is-loading="!!loading" :repositories="repositories" />
 	</div>
 </template>

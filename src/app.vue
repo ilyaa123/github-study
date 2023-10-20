@@ -8,6 +8,10 @@ const authGuard = computed(() =>
 <template>
 	<GuardAuth :guard="authGuard">
 		<NuxtLayout>
+			<nuxt-loading-indicator
+				:throttle="0"
+				color="var(--el-color-primary)"
+			/>
 			<NuxtPage />
 		</NuxtLayout>
 	</GuardAuth>

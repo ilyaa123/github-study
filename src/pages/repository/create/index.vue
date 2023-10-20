@@ -32,16 +32,11 @@ const handleOnCreateRepository = (form: createRepository) => {
 
 <template>
 	<div>
-		<el-page-header class="header-page" @back="router.back()">
-			<template #content>
-				<div class="flex items-center">
-					<span class="text-large font-600 mr-3">
-						Create Repository
-					</span>
-				</div>
-			</template>
-			<template #default />
-		</el-page-header>
+		<GlobalPageHeader
+			title="Create Repository"
+			:is-back="true"
+			@back="router.back()"
+		/>
 		<div class="form-container">
 			<RepositoriesFormsCreate
 				:is-loading="loading"
