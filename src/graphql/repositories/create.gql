@@ -1,0 +1,25 @@
+mutation CreateRepository(
+	$name: String!
+	$description: String
+	$visibility: RepositoryVisibility!
+	$template: Boolean = false
+	$homepageUrl: URI
+	$hasWikiEnabled: Boolean = false
+	$hasIssuesEnabled: Boolean = false
+) {
+	createRepository(
+		input: {
+			name: $name
+			description: $description
+			visibility: $visibility
+			template: $template
+			homepageUrl: $homepageUrl
+			hasWikiEnabled: $hasWikiEnabled
+			hasIssuesEnabled: $hasIssuesEnabled
+		}
+	) {
+		repository {
+			name
+		}
+	}
+}

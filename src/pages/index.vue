@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import repositoriesQuery from '~/graphql/repositories/get.gql';
+import repositoriesQuery from '~/graphql/repositories/list.gql';
 
 import type { GetRepositoryItem } from '~/types/repositories';
 import type { Filter } from '~/types/repositories/filter';
