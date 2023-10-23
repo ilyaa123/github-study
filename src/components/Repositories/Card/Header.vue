@@ -1,7 +1,7 @@
 <script setup lang="ts">
 interface Props {
 	name: string;
-	description: string | null;
+	description?: string;
 	forks: { totalCount: number };
 	stargazers: { totalCount: number };
 }

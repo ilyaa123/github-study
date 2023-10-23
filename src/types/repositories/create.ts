@@ -3,7 +3,7 @@ export type createRepository = {
 	description?: string;
 	visibility?: 'PRIVATE' | 'PUBLIC';
 	template: boolean;
-	homepageUrl?: URL | string;
+	homepageUrl?: string;
 	hasWikiEnabled: boolean;
 	hasIssuesEnabled: boolean;
 };

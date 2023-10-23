@@ -9,6 +9,7 @@ query repositories(
 			first: $limit
 			orderBy: { field: $sort, direction: DESC }
 		) {
+			totalCount
 			nodes {
 				id
 				name

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 interface Props {
-	updatedAt: string;
+	updatedAt: string | Date;
 	primaryLanguage: {
 		color: string;
 		name: string;

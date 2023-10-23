@@ -12,10 +12,12 @@ const filter = reactive<Filter>({
 	sort: (route.query?.sort as Partial<Filter['sort']>) || 'UPDATED_AT'
 });
 
-const count = ref<number>(100);
+const count = ref<number>(10);
 
-const { result, loading, refetch } = useQuery<{
-	viewer: { repositories: { nodes: GetRepositoryItem[] } };
+const { result, loading, fetchMore, refetch } = useQuery<{
+	viewer: {
+		repositories: { totalCount: number; nodes: GetRepositoryItem[] };
+	};
 }>(repositoriesQuery, {
 	limit: count.value,
 	privacy: filter?.type || 'PUBLIC',
@@ -26,6 +28,10 @@ const repositories = computed(() => {
 	return result.value?.viewer?.repositories.nodes;
 });
 
+const limit = computed(() => {
+	return result.value?.viewer.repositories.totalCount;
+});
+
 const changeFilter = (filter: Filter) => {
 	router.push({
 		path: '/',
@@ -34,6 +40,11 @@ const changeFilter = (filter: Filter) => {
 			sort: filter.sort
 		}
 	});
+};
+
+const loadMore = () => {
+	console.log('test');
+	fetchMore(repositoriesQuery);
 };
 
 watch(filter, () => {
@@ -67,7 +78,13 @@ watch(filter, () => {
 				</RepositoriesFilter>
 			</template>
 		</GlobalPageHeader>
-		<Repositories :is-loading="!!loading" :repositories="repositories" />
+		<Repositories
+			:is-loading="!!loading"
+			:count="count"
+			:limit="limit"
+			:repositories="repositories"
+			@laod-more="loadMore"
+		/>
 	</div>
 </template>
 <style lang="css" scoped>
