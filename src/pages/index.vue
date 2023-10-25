@@ -18,11 +18,17 @@ const { result, loading, fetchMore, refetch } = useQuery<{
 	viewer: {
 		repositories: { totalCount: number; nodes: GetRepositoryItem[] };
 	};
-}>(repositoriesQuery, {
-	limit: count.value,
-	privacy: filter?.type || 'PUBLIC',
-	sort: filter?.sort || 'UPDATED_AT'
-});
+}>(
+	repositoriesQuery,
+	{
+		limit: count.value,
+		privacy: filter?.type || 'PUBLIC',
+		sort: filter?.sort || 'UPDATED_AT'
+	},
+	{
+		prefetch: true
+	}
+);
 
 const repositories = computed(() => {
 	return result.value?.viewer?.repositories.nodes;
