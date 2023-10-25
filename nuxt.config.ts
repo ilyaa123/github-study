@@ -6,7 +6,7 @@ export default defineNuxtConfig({
 		head: {
 			charset: 'utf-8',
 			viewport: 'width=device-width, initial-scale=1',
-			title: 'GitHub Lite'
+			title: 'GitHub Study'
 		},
 		pageTransition: {
 			name: 'page',

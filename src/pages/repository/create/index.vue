@@ -18,7 +18,7 @@ const handleOnSuccess = () => {
 	});
 	setTimeout(() => {
 		router.push('/');
-	}, 500);
+	}, 1000);
 };
 
 const handleOnError = (message: string) => {

@@ -19,7 +19,7 @@ const login = () => {
 		<template #header>
 			<div class="card-header">
 				<h1>
-					<el-text type="primary" size="large">GitHub Lite</el-text>
+					<el-text type="primary" size="large">GitHub Study</el-text>
 				</h1>
 			</div>
 		</template>

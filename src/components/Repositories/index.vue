@@ -36,7 +36,7 @@ const emits = defineEmits<Emits>();
 				:stargazers="repositoriy.stargazers"
 			/>
 		</el-row>
-		<el-row
+		<!-- <el-row
 			v-if="
 				!!props.limit &&
 				props?.repositories &&
@@ -53,6 +53,6 @@ const emits = defineEmits<Emits>();
 					>Load More</el-button
 				>
 			</el-col>
-		</el-row>
+		</el-row> -->
 	</RepositoriesSkeletonLayout>
 </template>

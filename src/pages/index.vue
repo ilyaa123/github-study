@@ -12,7 +12,7 @@ const filter = reactive<Filter>({
 	sort: (route.query?.sort as Partial<Filter['sort']>) || 'UPDATED_AT'
 });
 
-const count = ref<number>(10);
+const count = ref<number>(100);
 
 const { result, loading, fetchMore, refetch } = useQuery<{
 	viewer: {
