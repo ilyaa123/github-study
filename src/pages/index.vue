@@ -26,9 +26,13 @@ const { result, loading, fetchMore, refetch } = useQuery<{
 		sort: filter?.sort || 'UPDATED_AT'
 	},
 	{
-		prefetch: true
+		prefetch: false
 	}
 );
+
+onMounted(() => {
+	refetch();
+});
 
 const repositories = computed(() => {
 	return result.value?.viewer?.repositories.nodes;
