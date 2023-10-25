@@ -12,11 +12,13 @@ const { mutate, loading } = useMutation<{
 }>(createRepositoryMutation);
 
 const handleOnSuccess = () => {
-	router.push('/');
 	ElMessage({
 		message: 'Success!',
 		type: 'success'
 	});
+	setTimeout(() => {
+		router.push('/');
+	}, 500);
 };
 
 const handleOnError = (message: string) => {
