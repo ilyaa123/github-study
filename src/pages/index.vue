@@ -13,6 +13,7 @@ const filter = reactive<Filter>({
 });
 
 const count = ref<number>(10);
+const loadMoreLoading = ref<boolean>(false);
 
 const { result, loading, fetchMore, refetch } = useQuery<RepositoryList>(
 	repositoriesQuery,
@@ -43,7 +44,7 @@ const changeFilter = (filter: Filter) => {
 
 const loadMore = () => {
 	count.value += 10;
-
+	loadMoreLoading.value = true;
 	fetchMore({
 		variables: {
 			limit: count.value,
@@ -66,6 +67,8 @@ const loadMore = () => {
 				};
 			}
 		}
+	})?.then(() => {
+		loadMoreLoading.value = false;
 	});
 };
 
@@ -78,8 +81,9 @@ watch(filter, () => {
 });
 
 provide('isLoading', loading);
-provide('count', count.value);
+provide('count', count);
 provide('hasNextPage', hasNextPage);
+provide('loadMoreLoading', loadMoreLoading);
 </script>
 
 <template>

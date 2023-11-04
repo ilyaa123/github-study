@@ -2,6 +2,7 @@
 interface Emits {
 	(event: 'laodMore'): void;
 }
+
 const emits = defineEmits<Emits>();
 
 const isLoading = inject('isLoading', true);
@@ -9,9 +10,15 @@ const isLoading = inject('isLoading', true);
 const count = inject('count', 10);
 
 const hasNextPage = inject('hasNextPage', false);
+
+const loadMoreLoading = inject('loadMoreLoading', false);
 </script>
 <template>
-	<el-skeleton animated :loading="isLoading && !hasNextPage" :count="count">
+	<el-skeleton
+		animated
+		:loading="isLoading && !loadMoreLoading"
+		:count="count"
+	>
 		<template #template>
 			<el-skeleton-item
 				class="mb-2"
@@ -29,7 +36,7 @@ const hasNextPage = inject('hasNextPage', false);
 				>
 					<el-button
 						type="primary"
-						:loading="isLoading"
+						:loading="loadMoreLoading"
 						@click="emits('laodMore')"
 						>Load More</el-button
 					>

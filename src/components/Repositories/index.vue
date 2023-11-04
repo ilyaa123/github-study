@@ -17,11 +17,7 @@ const props = defineProps<Props>();
 const emits = defineEmits<Emits>();
 </script>
 <template>
-	<RepositoriesSkeletonLayout
-		:count="count"
-		:has-next-page="hasNextPage"
-		@laod-more="emits('laodMore')"
-	>
+	<RepositoriesSkeletonLayout @laod-more="emits('laodMore')">
 		<el-row
 			v-for="(repositoriy, index) in props?.repositories"
 			:key="repositoriy.id"
