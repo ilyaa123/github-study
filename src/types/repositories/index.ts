@@ -14,3 +14,13 @@ export type GetRepositoryItem = {
 		totalCount: number;
 	};
 };
+
+export interface RepositoryList {
+	viewer: {
+		repositories: {
+			totalCount: number;
+			pageInfo: { hasNextPage: boolean };
+			nodes: GetRepositoryItem[];
+		};
+	};
+}

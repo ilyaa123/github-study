@@ -4,7 +4,7 @@ import type { GetRepositoryItem } from '~/types/repositories';
 interface Props {
 	isLoading: boolean;
 	count: number;
-	limit?: number;
+	hasNextPage?: boolean;
 	repositories?: GetRepositoryItem[];
 }
 
@@ -17,7 +17,11 @@ const props = defineProps<Props>();
 const emits = defineEmits<Emits>();
 </script>
 <template>
-	<RepositoriesSkeletonLayout :is-loading="props.isLoading" :count="count">
+	<RepositoriesSkeletonLayout
+		:count="count"
+		:has-next-page="hasNextPage"
+		@laod-more="emits('laodMore')"
+	>
 		<el-row
 			v-for="(repositoriy, index) in props?.repositories"
 			:key="repositoriy.id"
@@ -36,23 +40,5 @@ const emits = defineEmits<Emits>();
 				:stargazers="repositoriy.stargazers"
 			/>
 		</el-row>
-		<!-- <el-row
-			v-if="
-				!!props.limit &&
-				props?.repositories &&
-				props?.repositories?.length < props.limit
-			"
-			class="py-4"
-		>
-			<el-col
-				:span="24"
-				class="flex"
-				style="justify-content: center; align-items: center"
-			>
-				<el-button type="primary" @click="emits('laodMore')"
-					>Load More</el-button
-				>
-			</el-col>
-		</el-row> -->
 	</RepositoriesSkeletonLayout>
 </template>

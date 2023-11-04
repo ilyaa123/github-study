@@ -10,6 +10,9 @@ query repositories(
 			orderBy: { field: $sort, direction: DESC }
 		) {
 			totalCount
+			pageInfo {
+				hasNextPage
+			}
 			nodes {
 				id
 				name

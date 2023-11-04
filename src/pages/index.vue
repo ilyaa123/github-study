@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import repositoriesQuery from '~/graphql/repositories/list.gql';
 
-import type { GetRepositoryItem } from '~/types/repositories';
+import type { RepositoryList } from '~/types/repositories';
 import type { Filter } from '~/types/repositories/filter';
 
 const route = useRoute();
@@ -12,34 +12,23 @@ const filter = reactive<Filter>({
 	sort: (route.query?.sort as Partial<Filter['sort']>) || 'UPDATED_AT'
 });
 
-const count = ref<number>(100);
+const count = ref<number>(10);
 
-const { result, loading, fetchMore, refetch } = useQuery<{
-	viewer: {
-		repositories: { totalCount: number; nodes: GetRepositoryItem[] };
-	};
-}>(
+const { result, loading, fetchMore, refetch } = useQuery<RepositoryList>(
 	repositoriesQuery,
 	{
 		limit: count.value,
 		privacy: filter?.type || 'PUBLIC',
 		sort: filter?.sort || 'UPDATED_AT'
-	},
-	{
-		prefetch: false
 	}
 );
-
-onMounted(() => {
-	refetch();
-});
 
 const repositories = computed(() => {
 	return result.value?.viewer?.repositories.nodes;
 });
 
-const limit = computed(() => {
-	return result.value?.viewer.repositories.totalCount;
+const hasNextPage = computed(() => {
+	return result.value?.viewer.repositories.pageInfo.hasNextPage || false;
 });
 
 const changeFilter = (filter: Filter) => {
@@ -53,8 +42,31 @@ const changeFilter = (filter: Filter) => {
 };
 
 const loadMore = () => {
-	console.log('test');
-	fetchMore(repositoriesQuery);
+	count.value += 10;
+
+	fetchMore({
+		variables: {
+			limit: count.value,
+			privacy: filter?.type || 'PUBLIC',
+			sort: filter?.sort || 'UPDATED_AT'
+		},
+		updateQuery: (previousResult, { fetchMoreResult }) => {
+			if (fetchMoreResult?.viewer) {
+				return {
+					viewer: fetchMoreResult.viewer
+				};
+			} else {
+				return {
+					viewer: {
+						...previousResult.viewer,
+						pageInfo: {
+							hasNextPage: false
+						}
+					}
+				};
+			}
+		}
+	});
 };
 
 watch(filter, () => {
@@ -64,6 +76,10 @@ watch(filter, () => {
 		sort: filter?.sort || 'UPDATED_AT'
 	});
 });
+
+provide('isLoading', loading);
+provide('count', count.value);
+provide('hasNextPage', hasNextPage);
 </script>
 
 <template>
@@ -91,7 +107,7 @@ watch(filter, () => {
 		<Repositories
 			:is-loading="!!loading"
 			:count="count"
-			:limit="limit"
+			:has-next-page="hasNextPage"
 			:repositories="repositories"
 			@laod-more="loadMore"
 		/>
