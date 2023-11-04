@@ -1,20 +1,8 @@
-<script setup lang="ts">
-const route = useRoute();
-
-const authGuard = computed(() =>
-	typeof route.meta?.authGuard === 'boolean' ? route.meta?.authGuard : true
-);
-</script>
 <template>
-	<GuardAuth :guard="authGuard">
-		<NuxtLayout>
-			<nuxt-loading-indicator
-				:throttle="0"
-				color="var(--el-color-primary)"
-			/>
-			<NuxtPage />
-		</NuxtLayout>
-	</GuardAuth>
+	<NuxtLayout>
+		<nuxt-loading-indicator :throttle="0" color="var(--el-color-primary)" />
+		<NuxtPage />
+	</NuxtLayout>
 </template>
 <style lang="scss">
 .page-enter-active,
