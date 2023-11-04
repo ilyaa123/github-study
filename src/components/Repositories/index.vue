@@ -40,5 +40,6 @@ const emits = defineEmits<Emits>();
 				:stargazers="repositoriy.stargazers"
 			/>
 		</el-row>
+		<RepositoriesEmpty v-if="!repositories?.length" />
 	</RepositoriesSkeletonLayout>
 </template>
