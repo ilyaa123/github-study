@@ -1,5 +1,6 @@
 export default defineNuxtRouteMiddleware(async (to) => {
 	const code = to.query?.code;
+	const { getUser } = useUser();
 
 	if (code) {
 		try {
@@ -17,6 +18,14 @@ export default defineNuxtRouteMiddleware(async (to) => {
 			if (result?.access_token) {
 				const { onLogin } = useApollo();
 				onLogin(result.access_token);
+				getUser({
+					onResult() {
+						return navigateTo('/');
+					},
+					onError() {
+						return navigateTo('/login');
+					}
+				});
 				return navigateTo('/');
 			} else {
 				return navigateTo('/login');

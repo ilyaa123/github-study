@@ -1,27 +1,51 @@
 import repositoriesQuery from '~/graphql/user/get.gql';
 import { User } from '~/types/user';
 
-const useUser = () => {
-	const token = useCookie('gitToken');
-	const user = ref<User | null>(null);
+interface GetUserParams {
+	onResult?: (res: { viewer: User }) => void;
+	onError?: () => void;
+}
 
-	const getUser = () => {
-		const { result } = useQuery<{ viewer: User }>(repositoriesQuery);
+export const useUser = () => {
+	// const token = useCookie('gitToken');
 
-		watch(result, () => {
-			if (result.value) user.value = result.value?.viewer;
+	const user = useState<User | null>('user', () => null);
+
+	const isAuth = useState('isAuth', () => false);
+
+	const isAuthLoading = useState('isAuthLoading', () => false);
+
+	const getUser = (params: GetUserParams | void) => {
+		isAuthLoading.value = true;
+
+		const { onResult, onError } = useQuery<{ viewer: User }>(
+			repositoriesQuery
+		);
+
+		onResult((res) => {
+			user.value = res.data.viewer;
+			isAuth.value = true;
+			isAuthLoading.value = false;
+			if (params?.onResult) {
+				params.onResult(res.data);
+			}
+		});
+		onError(() => {
+			isAuthLoading.value = false;
+			if (params?.onError) {
+				params.onError();
+			}
 		});
 	};
 
-	const isAuth = computed(() => {
-		return !!user.value && !!token.value;
-	});
+	// const isAuth = computed(() => {
+	// 	return !!user.value && !!token.value;
+	// });
 
 	return {
 		user,
 		isAuth,
+		isAuthLoading,
 		getUser
 	};
 };
-
-export default useUser;
