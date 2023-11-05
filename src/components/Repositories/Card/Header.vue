@@ -4,6 +4,9 @@ interface Props {
 	description?: string;
 	forks: { totalCount: number };
 	stargazers: { totalCount: number };
+	owner: {
+		login: string;
+	};
 }
 
 const props = defineProps<Props>();
@@ -12,7 +15,7 @@ const props = defineProps<Props>();
 <template>
 	<el-row>
 		<el-col :span="12">
-			<nuxt-link :to="`/repository/${props.name}`">
+			<nuxt-link :to="`/repository/${props.owner.login}/${props.name}`">
 				<el-text type="primary" size="large">{{ props.name }}</el-text>
 			</nuxt-link>
 			<div>

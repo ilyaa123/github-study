@@ -16,6 +16,9 @@ query repositories(
 			nodes {
 				id
 				name
+				owner {
+					login
+				}
 				updatedAt
 				description
 				primaryLanguage {

@@ -11,6 +11,7 @@ const props = defineProps<GetRepositoryItem>();
 				:description="props.description"
 				:forks="props.forks"
 				:stargazers="props.stargazers"
+				:owner="props.owner"
 			/>
 		</template>
 		<RepositoriesCardContent

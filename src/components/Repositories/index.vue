@@ -29,6 +29,7 @@ const emits = defineEmits<Emits>();
 				:id="repositoriy.id"
 				class="w-100%"
 				:name="repositoriy.name"
+				:owner="repositoriy.owner"
 				:updated-at="repositoriy.updatedAt"
 				:description="repositoriy.description"
 				:primary-language="repositoriy.primaryLanguage"

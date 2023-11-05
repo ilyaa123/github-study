@@ -3,6 +3,9 @@ export type GetRepositoryItem = {
 	name: string;
 	updatedAt: Date | string;
 	description?: string;
+	owner: {
+		login: string;
+	};
 	primaryLanguage: {
 		color: string;
 		name: string;

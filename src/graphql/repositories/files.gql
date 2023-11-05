@@ -1,0 +1,20 @@
+query RepoFiles($owner: String!, $name: String!) {
+	repository(owner: $owner, name: $name) {
+		object(expression: "HEAD:") {
+			... on Tree {
+				entries {
+					name
+					type
+					mode
+
+					object {
+						... on Blob {
+							byteSize
+							isBinary
+						}
+					}
+				}
+			}
+		}
+	}
+}
