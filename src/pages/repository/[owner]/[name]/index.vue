@@ -3,9 +3,10 @@ import repositoriesQuery from '~/graphql/repositories/files.gql';
 import { RepoFiles } from '~/types/repositories/files';
 
 const route = useRoute();
+const router = useRouter();
 
-const name = route.params.name;
-const owner = route.params.owner;
+const name = route.params.name as string;
+const owner = route.params.owner as string;
 
 const { data } = useAsyncQuery<{
 	repository: { object: { entries: RepoFiles } };
@@ -19,7 +20,21 @@ const files = computed(() => {
 });
 </script>
 <template>
-	<div>
+	<RepositoriesContentLayout>
+		<template #header>
+			<GlobalPageHeader
+				:title="owner + ' / ' + name"
+				:is-back="true"
+				@back="router.back()"
+			>
+				<template #action>
+					<RepositoriesContentHeaderActions />
+				</template>
+			</GlobalPageHeader>
+		</template>
+		<template #sub-header>
+			<RepositoriesContentTabs value="code" />
+		</template>
 		<RepositoriesContentFileThreeTable :files="files" />
-	</div>
+	</RepositoriesContentLayout>
 </template>
