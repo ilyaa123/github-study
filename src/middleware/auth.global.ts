@@ -13,6 +13,7 @@ export default defineNuxtRouteMiddleware((to, _) => {
 	} else if (authPage && !!token.value && !user.value) {
 		getUser({
 			onError() {
+				token.value = null;
 				return navigateTo('/blank');
 			},
 			onResult() {
@@ -30,6 +31,7 @@ export default defineNuxtRouteMiddleware((to, _) => {
 	if (!authPage && !!token.value && !user.value) {
 		getUser({
 			onError() {
+				token.value = null;
 				return navigateTo('/blank');
 			},
 			onResult() {
