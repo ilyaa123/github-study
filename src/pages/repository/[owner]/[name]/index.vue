@@ -16,6 +16,11 @@ const { data } = useAsyncQuery<{
 });
 
 const files = computed(() => {
+	// const sortedFiles = sortFiles(
+	// 	data.value?.repository?.object?.entries || []
+	// );
+	// console.log('🚀 ~ file: index.vue:21 ~ files ~ sortedFiles:', sortedFiles);
+
 	return data.value?.repository?.object?.entries || [];
 });
 </script>
@@ -35,6 +40,6 @@ const files = computed(() => {
 		<template #sub-header>
 			<RepositoriesContentTabs value="code" />
 		</template>
-		<RepositoriesContentFileThreeTable :files="files" />
+		<RepositoriesContentFileThreeTable :files="sortFiles([...files])" />
 	</RepositoriesContentLayout>
 </template>

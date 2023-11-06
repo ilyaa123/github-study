@@ -7,8 +7,6 @@ import type { Filter } from '~/types/repositories/filter';
 const route = useRoute();
 const router = useRouter();
 
-const test = useUser();
-
 const filter = reactive<Filter>({
 	type: (route.query?.type as Partial<Filter['type']>) || 'PUBLIC',
 	sort: (route.query?.sort as Partial<Filter['sort']>) || 'UPDATED_AT'
@@ -23,9 +21,6 @@ const { result, loading, fetchMore, refetch } = useQuery<RepositoryList>(
 		limit: count.value,
 		privacy: filter?.type || 'PUBLIC',
 		sort: filter?.sort || 'UPDATED_AT'
-	},
-	{
-		enabled: test.isAuth.value
 	}
 );
 
