@@ -4,6 +4,10 @@ import repositoriesQuery from '~/graphql/repositories/list.gql';
 import type { RepositoryList } from '~/types/repositories';
 import type { Filter } from '~/types/repositories/filter';
 
+definePageMeta({
+	backtop: true
+});
+
 const route = useRoute();
 const router = useRouter();
 

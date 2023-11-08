@@ -3,13 +3,15 @@ interface Props {
 	name: string;
 	description?: string;
 	forks: { totalCount: number };
-	stargazers: { totalCount: number };
+	stargazers: { totalCount: number; nodes: { login: string }[] };
 	owner: {
 		login: string;
 	};
 }
 
 const props = defineProps<Props>();
+
+const { user } = useUser();
 </script>
 
 <template>
@@ -33,9 +35,22 @@ const props = defineProps<Props>();
 						type="primary"
 						class="mr-4"
 					>
-						<el-button circle text>
+						<el-button
+							v-if="
+								!stargazers.nodes.find(
+									(item) => item.login === user?.login
+								)
+							"
+							circle
+							text
+						>
 							<el-icon size="24" color="var(--el-color-warning)">
-								<Icon name="ph:star-four-bold" />
+								<Icon name="octicon:star-24" />
+							</el-icon>
+						</el-button>
+						<el-button v-else circle text>
+							<el-icon size="24" color="var(--el-color-warning)">
+								<Icon name="octicon:star-fill-24" />
 							</el-icon>
 						</el-button>
 					</el-badge>

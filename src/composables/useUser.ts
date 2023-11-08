@@ -7,7 +7,7 @@ interface GetUserParams {
 }
 
 export const useUser = () => {
-	// const token = useCookie('gitToken');
+	const token = useCookie('gitToken');
 
 	const user = useState<User | null>('user', () => null);
 
@@ -38,6 +38,13 @@ export const useUser = () => {
 		});
 	};
 
+	const logOut = (fn?: () => void) => {
+		token.value = null;
+		isAuth.value = false;
+		user.value = null;
+		if (fn) fn();
+	};
+
 	// const isAuth = computed(() => {
 	// 	return !!user.value && !!token.value;
 	// });
@@ -46,6 +53,7 @@ export const useUser = () => {
 		user,
 		isAuth,
 		isAuthLoading,
-		getUser
+		getUser,
+		logOut
 	};
 };

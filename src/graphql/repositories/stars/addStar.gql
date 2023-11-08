@@ -1,0 +1,7 @@
+mutation {
+	addStar(input: { starrableId: "ID_репозитория" }) {
+		starrable {
+			id
+		}
+	}
+}

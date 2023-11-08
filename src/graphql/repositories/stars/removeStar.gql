@@ -1,0 +1,7 @@
+mutation {
+	removeStar(input: { starrableId: "ID_репозитория" }) {
+		starrable {
+			id
+		}
+	}
+}

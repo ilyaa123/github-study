@@ -13,6 +13,8 @@ const queryFewUser = gql`
 	}
 `;
 
+const { setProfileAsideOpen } = useDrawers();
+
 const { data } = await useAsyncQuery<IQueryFewUser>(queryFewUser);
 </script>
 
@@ -26,10 +28,8 @@ const { data } = await useAsyncQuery<IQueryFewUser>(queryFewUser);
 			>
 		</el-col>
 		<el-col :span="4" style="text-align: right">
-			<div class="toolbar__profile">
-				<NuxtLink to="/profile/">
-					<el-avatar shape="square" :src="data?.viewer?.avatarUrl" />
-				</NuxtLink>
+			<div class="toolbar__profile" @click="setProfileAsideOpen(true)">
+				<el-avatar shape="square" :src="data?.viewer?.avatarUrl" />
 			</div>
 		</el-col>
 	</el-row>
@@ -42,8 +42,8 @@ const { data } = await useAsyncQuery<IQueryFewUser>(queryFewUser);
 		justify-content: center;
 		height: 100%;
 		right: 20px;
-		// text-align: right;
 		font-size: 12px;
+		cursor: pointer;
 	}
 }
 </style>

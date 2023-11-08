@@ -28,8 +28,11 @@ query repositories(
 				forks {
 					totalCount
 				}
-				stargazers {
+				stargazers(first: 100) {
 					totalCount
+					nodes {
+						login
+					}
 				}
 			}
 		}

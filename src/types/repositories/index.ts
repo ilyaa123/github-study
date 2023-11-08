@@ -15,6 +15,9 @@ export type GetRepositoryItem = {
 	};
 	stargazers: {
 		totalCount: number;
+		nodes: {
+			login: string;
+		}[];
 	};
 };
 
