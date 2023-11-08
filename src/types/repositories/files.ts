@@ -4,6 +4,9 @@ export type File = {
 	name: string;
 	type: FileType;
 	mode: number;
+	language: {
+		name: string | null;
+	};
 	object: {
 		byteSize: number;
 		isBinary: boolean;

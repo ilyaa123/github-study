@@ -3,12 +3,13 @@ import { RepoFiles } from '~/types/repositories/files';
 
 interface Props {
 	files: RepoFiles;
+	isLoading: boolean;
 }
 
 defineProps<Props>();
 </script>
 <template>
-	<el-table :data="files">
+	<el-table v-loading="isLoading" :data="files" lazy>
 		<el-table-column width="80" prop="type">
 			<template #default="scope">
 				<el-icon size="24" color="var(--el-color-primary)">

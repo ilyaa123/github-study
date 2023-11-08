@@ -1,12 +1,22 @@
 query RepoFiles($owner: String!, $name: String!) {
 	repository(owner: $owner, name: $name) {
+		refs(refPrefix: "refs/heads/", first: 100) {
+			nodes {
+				name
+			}
+		}
+		defaultBranchRef {
+			name
+		}
 		object(expression: "HEAD:") {
 			... on Tree {
 				entries {
 					name
 					type
 					mode
-
+					language {
+						name
+					}
 					object {
 						... on Blob {
 							byteSize
