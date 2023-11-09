@@ -9,13 +9,22 @@ const router = useRouter();
 	<el-drawer
 		direction="rtl"
 		:model-value="drawerState.profileAsideOpen"
-		size="300px"
+		size="350px"
 		@close="setProfileAsideOpen(false)"
 	>
 		<template #header>
 			<el-text size="large">Hi, {{ user?.name || user?.login }}!</el-text>
 		</template>
-		<template #default> </template>
+		<template #default>
+			<el-divider style="margin-top: 0 !important" />
+
+			<el-menu router>
+				<el-menu-item index="/profile"> Profile </el-menu-item>
+				<el-menu-item index="/profile/settings">
+					Settings
+				</el-menu-item>
+			</el-menu>
+		</template>
 		<template #footer>
 			<el-button
 				type="danger"

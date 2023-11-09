@@ -7,10 +7,6 @@ export type File = {
 	language: {
 		name: string | null;
 	};
-	object: {
-		byteSize: number;
-		isBinary: boolean;
-	};
 };
 
 export type RepoFiles = File[];

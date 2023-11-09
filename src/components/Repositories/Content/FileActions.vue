@@ -6,11 +6,20 @@ interface Props {
 	activeRef: string;
 }
 
+interface Emits {
+	(event: 'changeRef', value: string): void;
+}
+
 defineProps<Props>();
+
+const emits = defineEmits<Emits>();
 </script>
 <template>
 	<el-row>
-		<el-select :model-value="activeRef">
+		<el-select
+			:model-value="activeRef"
+			@change="(e) => emits('changeRef', e)"
+		>
 			<el-option
 				v-for="(ref, index) in refs"
 				:key="index"

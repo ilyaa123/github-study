@@ -23,15 +23,18 @@ export const useUser = () => {
 		);
 
 		onResult((res) => {
+			isAuthLoading.value = false;
 			user.value = res.data.viewer;
 			isAuth.value = true;
-			isAuthLoading.value = false;
 			if (params?.onResult) {
 				params.onResult(res.data);
 			}
 		});
 		onError(() => {
 			isAuthLoading.value = false;
+			token.value = null;
+			isAuth.value = false;
+			user.value = null;
 			if (params?.onError) {
 				params.onError();
 			}

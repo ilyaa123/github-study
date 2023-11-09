@@ -8,6 +8,7 @@ const router = useRouter();
 const { user } = useUser();
 const name = route.params.name as string;
 const owner = route.params.owner as string;
+const ref = route.params.ref as string;
 
 const { data, pending } = useAsyncQuery<{
 	repository: {
@@ -23,7 +24,7 @@ const { data, pending } = useAsyncQuery<{
 }>(repositoriesQuery, {
 	owner,
 	name,
-	expression: 'HEAD:'
+	expression: `${ref}:`
 });
 
 const files = computed(() => {
@@ -31,10 +32,6 @@ const files = computed(() => {
 });
 const refs = computed(() => {
 	return data?.value?.repository?.refs?.nodes || [];
-});
-
-const defaultBranchName = computed(() => {
-	return data?.value?.repository?.defaultBranchRef?.name || 'main';
 });
 
 const isStarChecked = computed(
@@ -65,7 +62,7 @@ const isStarChecked = computed(
 		<template #default>
 			<RepositoriesContentFileActions
 				v-if="pending || !!files.length"
-				:active-ref="defaultBranchName"
+				:active-ref="ref"
 				:refs="refs"
 				@change-ref="
 					(e) =>

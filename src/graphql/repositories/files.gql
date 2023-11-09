@@ -1,4 +1,4 @@
-query RepoFiles($owner: String!, $name: String!) {
+query RepoFiles($owner: String!, $name: String!, $expression: String!) {
 	repository(owner: $owner, name: $name) {
 		refs(refPrefix: "refs/heads/", first: 100) {
 			nodes {
@@ -8,7 +8,12 @@ query RepoFiles($owner: String!, $name: String!) {
 		defaultBranchRef {
 			name
 		}
-		object(expression: "HEAD:") {
+		stargazers(first: 100) {
+			nodes {
+				login
+			}
+		}
+		object(expression: $expression) {
 			... on Tree {
 				entries {
 					name
@@ -16,12 +21,6 @@ query RepoFiles($owner: String!, $name: String!) {
 					mode
 					language {
 						name
-					}
-					object {
-						... on Blob {
-							byteSize
-							isBinary
-						}
 					}
 				}
 			}
