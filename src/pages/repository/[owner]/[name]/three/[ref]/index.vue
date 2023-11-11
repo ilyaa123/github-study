@@ -73,6 +73,12 @@ const isStarChecked = computed(
 				v-if="pending || !!files.length"
 				:files="sortFiles([...files])"
 				:is-loading="pending"
+				@click-row="
+					(file) =>
+						router.push(
+							`/repository/${owner}/${name}/three/${ref}/${file.name}`
+						)
+				"
 			/>
 			<RepositoriesContentFileThreeTableBlank
 				v-if="!files.length && !pending"

@@ -1,6 +1,6 @@
 export type FileType = 'blob' | 'tree';
 
-export type File = {
+export type RepoFile = {
 	name: string;
 	type: FileType;
 	mode: number;
@@ -9,4 +9,4 @@ export type File = {
 	};
 };
 
-export type RepoFiles = File[];
+export type RepoFiles = RepoFile[];

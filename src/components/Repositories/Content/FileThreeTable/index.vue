@@ -1,15 +1,27 @@
 <script setup lang="ts">
-import { RepoFiles } from '~/types/repositories/files';
+import type { RepoFile, RepoFiles } from '~/types/repositories/files';
 
 interface Props {
 	files: RepoFiles;
 	isLoading: boolean;
 }
 
+interface Emits {
+	(event: 'click-row', value: RepoFile): void;
+}
+
 defineProps<Props>();
+
+const emits = defineEmits<Emits>();
 </script>
 <template>
-	<el-table v-loading="isLoading" :data="files" lazy>
+	<el-table
+		v-loading="isLoading"
+		:data="files"
+		lazy
+		:row-style="{ cursor: 'pointer' }"
+		@row-click="(row: RepoFile) => emits('click-row', row)"
+	>
 		<el-table-column width="80" prop="type">
 			<template #default="scope">
 				<el-icon size="24" color="var(--el-color-primary)">
@@ -28,5 +40,6 @@ defineProps<Props>();
 				<el-text size="large">{{ scope.row.name }}</el-text>
 			</template>
 		</el-table-column>
+		<template #empty> <slot name="empty" /> </template>
 	</el-table>
 </template>
