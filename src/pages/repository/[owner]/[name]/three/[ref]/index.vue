@@ -47,7 +47,7 @@ const isStarChecked = computed(
 			<GlobalPageHeader
 				:title="owner + ' / ' + name"
 				:is-back="true"
-				@back="router.back()"
+				@back="router.push('/')"
 			>
 				<template #action>
 					<RepositoriesContentHeaderActions
