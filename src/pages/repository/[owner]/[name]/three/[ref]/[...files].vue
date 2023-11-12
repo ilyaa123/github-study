@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import repositoriesQuery from '~/graphql/repositories/files.gql';
-import { RepoFiles } from '~/types/repositories/files';
+import { RepoFile, RepoFiles } from '~/types/repositories/files';
 
 const route = useRoute();
 const router = useRouter();
@@ -28,11 +28,29 @@ const { data, pending } = useAsyncQuery<{
 });
 
 const files = computed(() => {
-	return data.value?.repository?.object?.entries || [];
+	const firstFile: RepoFile = {
+		name: '...',
+		mode: 0,
+		type: 'tree',
+		language: {
+			name: null
+		}
+	};
+
+	return data.value?.repository?.object?.entries
+		? [firstFile, ...data.value?.repository?.object?.entries]
+		: [];
 });
 </script>
 <template>
 	<RepositoriesFilesLayout>
+		<template #header>
+			<GlobalPageHeader
+				:title="owner + ' / ' + name"
+				:is-back="true"
+				@back="router.push(`/repository/${owner}/${name}/`)"
+			/>
+		</template>
 		<template #aside>
 			<RepositoriesFilesAside />
 		</template>
@@ -46,6 +64,13 @@ const files = computed(() => {
 							'/'
 						)}/${row.name}`
 					)
+			"
+			@back-folder="
+				router.push(
+					`/repository/${owner}/${name}/three/${ref}/${file
+						.slice(0, -1)
+						.join('/')}`
+				)
 			"
 		>
 			<template v-if="files.length === 0 && !pending" #empty>

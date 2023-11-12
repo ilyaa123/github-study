@@ -25,5 +25,5 @@ const { data } = useAsyncQuery<{
 const text = computed(() => data.value?.repository?.object?.text || '');
 </script>
 <template>
-	<v-card>test</v-card>
+	<el-card> </el-card>
 </template>

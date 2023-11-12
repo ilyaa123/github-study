@@ -8,11 +8,20 @@ interface Props {
 
 interface Emits {
 	(event: 'click-row', value: RepoFile): void;
+	(event: 'back-folder'): void;
 }
 
 defineProps<Props>();
 
 const emits = defineEmits<Emits>();
+
+const handleOnClickRow = (row: RepoFile) => {
+	if (row.name === '...') {
+		emits('back-folder');
+	} else {
+		emits('click-row', row);
+	}
+};
 </script>
 <template>
 	<el-table
@@ -20,7 +29,7 @@ const emits = defineEmits<Emits>();
 		:data="files"
 		lazy
 		:row-style="{ cursor: 'pointer' }"
-		@row-click="(row: RepoFile) => emits('click-row', row)"
+		@row-click="(row: RepoFile) => handleOnClickRow(row)"
 	>
 		<el-table-column width="80" prop="type">
 			<template #default="scope">
