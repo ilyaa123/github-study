@@ -1,6 +1,8 @@
-import { RepoFiles } from '~/types/repositories/files';
+type Prop = {
+	mode: number;
+}[];
 
-const sortFiles = (files: RepoFiles) => {
+const sortFiles = <T extends Prop>(files: T): T => {
 	return files.sort((a, b) => {
 		return a.mode - b.mode;
 	});

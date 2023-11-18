@@ -52,3 +52,11 @@ const handleOnClickRow = (row: RepoFile) => {
 		<template #empty> <slot name="empty" /> </template>
 	</el-table>
 </template>
+<style>
+.el-table__empty-block {
+	width: 100% !important;
+}
+.el-table__empty-text {
+	width: 100% !important;
+}
+</style>

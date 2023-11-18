@@ -64,6 +64,7 @@ const isStarChecked = computed(
 				v-if="pending || !!files.length"
 				:active-ref="ref"
 				:refs="refs"
+				style="max-width: 220px"
 				@change-ref="
 					(e) =>
 						router.push(`/repository/${owner}/${name}/three/${e}`)

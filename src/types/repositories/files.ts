@@ -9,4 +9,11 @@ export type RepoFile = {
 	};
 };
 
+export type RepoFileTree = {
+	name: string;
+	type: FileType;
+	mode: number;
+	path: string;
+};
+
 export type RepoFiles = RepoFile[];

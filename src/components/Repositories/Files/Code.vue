@@ -2,7 +2,7 @@
 import repositoriesQuery from '~/graphql/repositories/file.gql';
 
 interface Props {
-	fileName: string;
+	fileName: string[];
 	owner: string;
 	repoName: string;
 	refName: string;
@@ -10,7 +10,7 @@ interface Props {
 
 const props = defineProps<Props>();
 
-const { data } = useAsyncQuery<{
+const { data, pending } = useAsyncQuery<{
 	repository: {
 		object: {
 			text: string;
@@ -19,11 +19,15 @@ const { data } = useAsyncQuery<{
 }>(repositoriesQuery, {
 	owner: props.owner,
 	name: props.repoName,
-	expression: `${props.refName}:${props.fileName}`
+	expression: `${props.refName}:${props.fileName.join('/')}`
 });
 
 const text = computed(() => data.value?.repository?.object?.text || '');
 </script>
 <template>
-	<el-card> </el-card>
+	<div v-loading="pending" class="text-start pa-4" style="line-height: 190%">
+		<ClientOnly>
+			<highlightjs autodetect :code="text" />
+		</ClientOnly>
+	</div>
 </template>

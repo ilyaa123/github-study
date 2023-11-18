@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import repositoriesQuery from '~/graphql/repositories/files.gql';
 import { RepoFile, RepoFiles } from '~/types/repositories/files';
+import { Ref } from '~/types/repositories/refs';
 
 const route = useRoute();
 const router = useRouter();
@@ -41,6 +42,8 @@ const files = computed(() => {
 		? [firstFile, ...data.value?.repository?.object?.entries]
 		: [];
 });
+
+const refs = computed(() => data?.value?.repository?.refs?.nodes || []);
 </script>
 <template>
 	<RepositoriesFilesLayout>
@@ -52,7 +55,30 @@ const files = computed(() => {
 			/>
 		</template>
 		<template #aside>
-			<RepositoriesFilesAside />
+			<RepositoriesFilesAside>
+				<template #header>
+					<RepositoriesContentFileActions
+						v-if="!pending"
+						:active-ref="ref"
+						:refs="refs"
+						style="width: 100%"
+						@change-ref="
+							(e) =>
+								router.push(
+									`/repository/${owner}/${name}/three/${e}/${file.join(
+										'/'
+									)}`
+								)
+						"
+					/>
+				</template>
+				<RepositoriesFilesThree
+					:owner="owner"
+					:name="name"
+					:ref-name="ref"
+					:file-names="file"
+				/>
+			</RepositoriesFilesAside>
 		</template>
 		<RepositoriesContentFileThreeTable
 			:files="sortFiles([...files])"
@@ -75,7 +101,7 @@ const files = computed(() => {
 		>
 			<template v-if="files.length === 0 && !pending" #empty>
 				<RepositoriesFilesCode
-					:file-name="file[file.length - 1]"
+					:file-name="file"
 					:owner="owner"
 					:repo-name="name"
 					:ref-name="ref"

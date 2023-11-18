@@ -18,6 +18,7 @@ const emits = defineEmits<Emits>();
 	<el-row>
 		<el-select
 			:model-value="activeRef"
+			style="width: 100%"
 			@change="(e) => emits('changeRef', e)"
 		>
 			<el-option
