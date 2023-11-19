@@ -37,7 +37,7 @@ const getFiles = () => {
 			expression: `${route.params.ref}:${props.path}`
 		},
 		{
-			fetchPolicy: 'cache-first'
+			fetchPolicy: 'cache-and-network'
 		}
 	);
 	onResult((res) => {
@@ -51,7 +51,7 @@ const getFiles = () => {
 
 const items = computed(() => result.value?.repository?.object?.entries || []);
 
-onMounted(() => {
+onBeforeMount(() => {
 	if (
 		(route.params.files as string[])?.join('/').includes(props.path) &&
 		items.value.length === 0
@@ -77,8 +77,18 @@ const handleMenuSelect = () => {
 			</el-icon>
 			<span>{{ name }}</span>
 		</template>
+		<el-menu-item v-if="isLoading || items.length == 0">
+			<el-icon class="icon-loading">
+				<Icon
+					name="material-symbols-light:progress-activity"
+					color="var(--el-color-primary)"
+				/>
+			</el-icon>
+			<span> Loading... </span>
+		</el-menu-item>
 		<RepositoriesFilesThreeItem
 			v-for="(item, index) in sortFiles([...items])"
+			v-else
 			:key="index"
 			:item="item"
 		/>
@@ -87,5 +97,21 @@ const handleMenuSelect = () => {
 <style>
 .el-progress__text {
 	display: none;
+}
+
+.icon-loading {
+	animation: loader ease-in-out 0.54s infinite;
+}
+
+@keyframes loader {
+	0% {
+		transform: rotate(0);
+	}
+	50% {
+		transform: rotate(180deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
 }
 </style>

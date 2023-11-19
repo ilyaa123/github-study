@@ -23,12 +23,23 @@ const { data, pending } = useAsyncQuery<{
 });
 
 const items = computed(() => data.value?.repository?.object?.entries || []);
+
+const paths = computed(() => {
+	const resultArray = props.fileNames.reduce((acc: string[], part) => {
+		const newPath =
+			acc.length === 0 ? part : `${acc[acc.length - 1]}/${part}`;
+		acc.push(newPath);
+		return acc;
+	}, []);
+
+	return resultArray;
+});
 </script>
 <template>
 	<el-menu
 		v-loading="pending"
 		:default-active="fileNames.join('/')"
-		:default-openeds="fileNames"
+		:default-openeds="paths"
 	>
 		<template v-for="(item, index) in sortFiles([...items])" :key="index">
 			<RepositoriesFilesThreeItem :item="item" />
