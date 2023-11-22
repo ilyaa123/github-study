@@ -1,7 +1,11 @@
 <script setup lang="ts">
-const { isAuthLoading, user } = useUser();
+import { User } from './types/user';
 
 const route = useRoute();
+
+const isAuthLoading = useState<boolean>('isAuthLoading');
+
+const user = useState<User | null>('user');
 
 const isPageLoading = computed(() =>
 	typeof route.meta.authGuard === 'boolean' ? !!user.value?.id : false

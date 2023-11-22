@@ -18,7 +18,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
 			if (result?.access_token) {
 				const { onLogin } = useApollo();
 				onLogin(result.access_token);
-				getUser({
+				await getUser({
 					onResult() {
 						return navigateTo('/');
 					},
