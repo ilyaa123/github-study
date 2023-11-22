@@ -65,10 +65,17 @@ const isStarChecked = computed(
 
 const handleOnSetStar = (value: boolean) => {
 	if (value) {
+		data.value.repository.stargazers.nodes = [
+			...data.value.repository.stargazers.nodes,
+			{ login: owner }
+		];
 		addStar({
 			repositoryId: data.value.repository.id
 		});
 	} else {
+		data.value.repository.stargazers.nodes = [
+			...data.value.repository.stargazers.nodes
+		].filter((node) => node.login !== owner);
 		removeStar({
 			repositoryId: data.value.repository.id
 		});
