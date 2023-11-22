@@ -1,5 +1,5 @@
-mutation {
-	addStar(input: { starrableId: "ID_репозитория" }) {
+mutation addStar($repositoryId: ID!) {
+	addStar(input: { starrableId: $repositoryId }) {
 		starrable {
 			id
 		}

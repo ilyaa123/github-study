@@ -1,5 +1,5 @@
-mutation {
-	removeStar(input: { starrableId: "ID_репозитория" }) {
+mutation removeStar($repositoryId: ID!) {
+	removeStar(input: { starrableId: $repositoryId }) {
 		starrable {
 			id
 		}
