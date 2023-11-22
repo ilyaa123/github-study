@@ -33,8 +33,23 @@ export default defineNuxtConfig({
 		'@element-plus/nuxt',
 		'@nuxtjs/apollo',
 		'@unocss/nuxt',
+		'nuxt-electron',
 		'nuxt-icon'
 	],
+	electron: {
+		build: [
+			{
+				entry: 'electron/main.ts'
+			},
+			{
+				entry: 'electron/preload.ts',
+				onstart(options) {
+					options.reload();
+				}
+			}
+		],
+		renderer: {}
+	},
 	elementPlus: {
 		importStyle: 'scss',
 		icon: 'ElIcon'
