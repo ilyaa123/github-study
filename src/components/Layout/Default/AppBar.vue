@@ -20,14 +20,14 @@ const { data } = await useAsyncQuery<IQueryFewUser>(queryFewUser);
 
 <template>
 	<el-row style="height: 100%; justify-content: space-between">
-		<el-col :span="4">
+		<el-col :span="12" :md="4">
 			<el-text class="mx-1" style="color: var(--el-color-white)"
 				><NuxtLink to="/" style="color: inherit"
 					><h2>GitHub Study</h2></NuxtLink
 				></el-text
 			>
 		</el-col>
-		<el-col :span="4" style="text-align: right">
+		<el-col :span="12" :md="4" style="text-align: right">
 			<div class="toolbar__profile" @click="setProfileAsideOpen(true)">
 				<el-avatar shape="square" :src="data?.viewer?.avatarUrl" />
 			</div>

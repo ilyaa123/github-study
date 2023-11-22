@@ -21,16 +21,16 @@ const handleOnUpdate = (key: keyof Filter, value: Filter[keyof Filter]) => {
 </script>
 <template>
 	<div>
-		<el-row class="mb-2">
+		<el-row class="mb-2 flex-wrap gap-2" :gutter="20">
 			<RepositoriesFilterTypeSelect
 				:type="filter.type"
 				@change="handleOnUpdate"
 			/>
 			<RepositoriesFilterSortSelect
 				:sort="filter.sort"
-				class="ml-1"
 				@change="handleOnUpdate"
 			/>
+
 			<slot />
 		</el-row>
 	</div>

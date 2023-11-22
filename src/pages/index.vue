@@ -100,7 +100,6 @@ provide('loadMoreLoading', loadMoreLoading);
 				>
 					<el-button
 						type="primary"
-						class="ml-1"
 						style="height: auto"
 						@click="router.push('/repository/create')"
 					>
