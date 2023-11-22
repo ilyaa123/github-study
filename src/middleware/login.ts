@@ -17,16 +17,17 @@ export default defineNuxtRouteMiddleware(async (to) => {
 			);
 			if (result?.access_token) {
 				const { onLogin } = useApollo();
-				onLogin(result.access_token);
-				await getUser({
-					onResult() {
-						return navigateTo('/');
-					},
-					onError() {
-						return navigateTo('/login');
-					}
+				onLogin(result.access_token).then(async () => {
+					await getUser({
+						onResult() {
+							return navigateTo('/');
+						},
+						onError() {
+							return navigateTo('/login');
+						}
+					});
+					return navigateTo('/');
 				});
-				return navigateTo('/');
 			} else {
 				return navigateTo('/login');
 			}

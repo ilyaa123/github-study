@@ -8,7 +8,9 @@ definePageMeta({
 const { githubClientID } = useRuntimeConfig().public;
 
 const login = () => {
-	const loginUrl = `https://github.com/login/oauth/authorize?client_id=${githubClientID}`;
+	const redirectUri = window.location.origin + '/login';
+
+	const loginUrl = `https://github.com/login/oauth/authorize?client_id=${githubClientID}&redirect_uri=${redirectUri}`;
 
 	window.location.href = loginUrl;
 };
