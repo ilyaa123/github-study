@@ -2,6 +2,11 @@
 export default defineNuxtConfig({
 	devtools: { enabled: true },
 	srcDir: 'src',
+	router: {
+		options: {
+			hashMode: false
+		}
+	},
 	app: {
 		head: {
 			charset: 'utf-8',
