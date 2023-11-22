@@ -18,27 +18,36 @@ export const useUser = () => {
 	const getUser = (params: GetUserParams | void) => {
 		isAuthLoading.value = true;
 
-		const { onResult, onError } = useQuery<{ viewer: User }>(
-			repositoriesQuery
-		);
+		try {
+			const { onResult, onError } = useQuery<{ viewer: User }>(
+				repositoriesQuery
+			);
 
-		onResult((res) => {
-			isAuthLoading.value = false;
-			user.value = res.data.viewer;
-			isAuth.value = true;
-			if (params?.onResult) {
-				params.onResult(res.data);
-			}
-		});
-		onError(() => {
-			isAuthLoading.value = false;
-			token.value = null;
-			isAuth.value = false;
-			user.value = null;
-			if (params?.onError) {
-				params.onError();
-			}
-		});
+			return new Promise((resolve, reject) => {
+				resolve(
+					onResult((res) => {
+						isAuthLoading.value = false;
+						user.value = res.data.viewer;
+						isAuth.value = true;
+						if (params?.onResult) {
+							params.onResult(res.data);
+						}
+					})
+				);
+
+				reject(
+					onError(() => {
+						isAuthLoading.value = false;
+						token.value = null;
+						isAuth.value = false;
+						user.value = null;
+						if (params?.onError) {
+							params.onError();
+						}
+					})
+				);
+			});
+		} catch {}
 	};
 
 	const logOut = (fn?: () => void) => {

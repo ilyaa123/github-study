@@ -1,6 +1,6 @@
 /* eslint no-useless-return: 0 */
 
-export default defineNuxtRouteMiddleware((to, _) => {
+export default defineNuxtRouteMiddleware(async (to, _) => {
 	const token = useCookie('gitToken');
 
 	const { getUser, user, isAuth } = useUser();
@@ -11,10 +11,9 @@ export default defineNuxtRouteMiddleware((to, _) => {
 	if (!authPage && !!isAuth.value) {
 		return navigateTo('/');
 	} else if (authPage && !!token.value && !user.value) {
-		getUser({
+		await getUser({
 			onError() {
 				token.value = null;
-				return navigateTo('/blank');
 			},
 			onResult() {
 				if (!authPage) {
@@ -29,7 +28,7 @@ export default defineNuxtRouteMiddleware((to, _) => {
 	}
 
 	if (!authPage && !!token.value && !user.value) {
-		getUser({
+		await getUser({
 			onError() {
 				token.value = null;
 				return navigateTo('/blank');
