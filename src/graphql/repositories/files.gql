@@ -8,6 +8,19 @@ query RepoFiles($owner: String!, $name: String!, $expression: String!) {
 		}
 		defaultBranchRef {
 			name
+			target {
+				... on Commit {
+					oid
+					message
+					committedDate
+					status {
+						state
+					}
+					history(first: 1) {
+						totalCount
+					}
+				}
+			}
 		}
 		stargazers(first: 100) {
 			nodes {

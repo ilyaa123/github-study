@@ -57,11 +57,10 @@ const refs = computed(() => data?.value?.repository?.refs?.nodes || []);
 		<template #aside>
 			<RepositoriesFilesAside>
 				<template #header>
-					<RepositoriesContentFileActions
-						v-if="!pending"
+					<RepositoriesElementsRefSelect
 						:active-ref="ref"
 						:refs="refs"
-						style="width: 100%"
+						style="width: 100%; max-width: none"
 						@change-ref="
 							(e) =>
 								router.push(
