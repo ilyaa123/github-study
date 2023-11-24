@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ElNotification } from 'element-plus';
 
-import repositoriesQuery from '~/graphql/repositories/files.gql';
+import repositoriesQuery from '~/graphql/repositories/info-ref.gql';
 import addStarMutation from '~/graphql/repositories/stars/addStar.gql';
 import removeStarMutation from '~/graphql/repositories/stars/removeStar.gql';
+import { Commit } from '~/types/commit';
 
 import { RepoFiles } from '~/types/repositories/files';
 import { Ref } from '~/types/repositories/refs';
@@ -19,8 +20,10 @@ const { data, pending } = useAsyncQuery<{
 	repository: {
 		id: string;
 		object: { entries: RepoFiles };
+		ref: {
+			target: Commit;
+		};
 		refs: { nodes: Ref[] };
-		defaultBranchRef: { name: string };
 		stargazers: {
 			nodes: {
 				login: string;
@@ -30,7 +33,8 @@ const { data, pending } = useAsyncQuery<{
 }>(repositoriesQuery, {
 	owner,
 	name,
-	expression: `${ref}:`
+	expression: `${ref}:`,
+	qualifiedName: `refs/heads/${ref}`
 });
 
 const { mutate: addStar, onError: onErrorAddStar } =
@@ -102,6 +106,8 @@ const isStarChecked = computed({
 		}
 	}
 });
+
+const lastCommit = computed(() => data.value?.repository?.ref?.target);
 </script>
 <template>
 	<RepositoriesContentLayout>
@@ -133,7 +139,12 @@ const isStarChecked = computed({
 						"
 					/>
 				</template>
-				<template #right> </template>
+				<template #right>
+					<RepositoriesElementsCommitStatistic
+						:commit="lastCommit"
+						class="justify-end"
+					/>
+				</template>
 			</RepositoriesContentFileActions>
 			<RepositoriesContentFileThreeTable
 				v-if="pending || !!files.length"

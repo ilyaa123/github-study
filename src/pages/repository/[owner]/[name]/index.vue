@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ElNotification } from 'element-plus';
 
-import repositoriesQuery from '~/graphql/repositories/files.gql';
+import repositoriesQuery from '~/graphql/repositories/info.gql';
 import addStarMutation from '~/graphql/repositories/stars/addStar.gql';
 import removeStarMutation from '~/graphql/repositories/stars/removeStar.gql';
 

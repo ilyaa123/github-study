@@ -1,4 +1,4 @@
-query RepoFiles($owner: String!, $name: String!, $expression: String!) {
+query RepoInfo($owner: String!, $name: String!, $expression: String!) {
 	repository(owner: $owner, name: $name) {
 		id
 		refs(refPrefix: "refs/heads/", first: 100) {

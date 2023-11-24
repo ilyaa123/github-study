@@ -24,14 +24,14 @@ const statusStateColors: Record<
 };
 </script>
 <template>
-	<el-row class="gap-2">
+	<el-row v-if="!!commit" class="gap-2">
 		<el-text
 			>Updated on
 			{{ formatDate(commit.committedDate, 'DD.MM.YYYY') }}</el-text
 		>
 		<el-tag
 			:type="
-				!!commit.status?.state
+				!!commit?.status?.state
 					? statusStateColors[commit.status.state]
 					: 'success'
 			"

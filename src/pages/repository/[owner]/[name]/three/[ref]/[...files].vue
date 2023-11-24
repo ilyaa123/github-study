@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import repositoriesQuery from '~/graphql/repositories/files.gql';
+import repositoriesQuery from '~/graphql/repositories/info.gql';
 import { RepoFile, RepoFiles } from '~/types/repositories/files';
 import { Ref } from '~/types/repositories/refs';
 
