@@ -1,0 +1,47 @@
+query RepoInfoRef(
+	$owner: String!
+	$name: String!
+	$expression: String!
+	$qualifiedName: String!
+) {
+	repository(owner: $owner, name: $name) {
+		id
+		ref(qualifiedName: $qualifiedName) {
+			target {
+				... on Commit {
+					oid
+					message
+					committedDate
+					status {
+						state
+					}
+					history(first: 1) {
+						totalCount
+					}
+				}
+			}
+		}
+		refs(refPrefix: "refs/heads/", first: 100) {
+			nodes {
+				name
+			}
+		}
+		stargazers(first: 100) {
+			nodes {
+				login
+			}
+		}
+		object(expression: $expression) {
+			... on Tree {
+				entries {
+					name
+					type
+					mode
+					language {
+						name
+					}
+				}
+			}
+		}
+	}
+}

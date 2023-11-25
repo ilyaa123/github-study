@@ -1,3 +1,5 @@
+import { Ref } from '~/types/repositories/refs';
+
 export type FileType = 'blob' | 'tree';
 
 export type RepoFile = {
@@ -17,3 +19,27 @@ export type RepoFileTree = {
 };
 
 export type RepoFiles = RepoFile[];
+
+export interface RepoFilesQueryResult {
+	repository: {
+		id: string;
+		object: { entries: RepoFiles };
+		refs: { nodes: Ref[] };
+		defaultBranchRef: {
+			name: string;
+			target: {
+				oid: string;
+				message: string;
+				committedDate: string;
+				history: {
+					totalCount: number;
+				};
+			};
+		};
+		stargazers: {
+			nodes: {
+				login: string;
+			}[];
+		};
+	};
+}

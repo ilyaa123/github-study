@@ -1,4 +1,4 @@
-query repositories(
+query Repositories(
 	$limit: Int!
 	$privacy: RepositoryPrivacy
 	$sort: RepositoryOrderField!
