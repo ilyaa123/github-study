@@ -11,7 +11,7 @@ process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 let win: BrowserWindow;
 const preload = path.join(process.env.DIST, 'preload.js');
 
-function bootstrap() {
+const createWindow = () => {
 	win = new BrowserWindow({
 		webPreferences: {
 			preload,
@@ -28,6 +28,16 @@ function bootstrap() {
 	} else {
 		win.loadFile(path.join(process.env.VITE_PUBLIC!, 'index.html'));
 	}
-}
+};
 
-app.whenReady().then(bootstrap);
+app.whenReady().then(() => {
+	createWindow();
+
+	app.on('activate', () => {
+		if (BrowserWindow.getAllWindows().length == 0) createWindow();
+	});
+});
+
+app.on('window-all-closed', () => {
+	if (process.platform !== 'darwin') app.quit();
+});

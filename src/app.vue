@@ -8,7 +8,7 @@ const isAuthLoading = useState<boolean>('isAuthLoading');
 const user = useState<User | null>('user');
 
 const isPageLoading = computed(() =>
-	typeof route.meta.authGuard === 'boolean' ? !!user.value?.id : false
+	typeof route.meta.authGuard === 'boolean' ? !user.value?.id : false
 );
 </script>
 <template>
