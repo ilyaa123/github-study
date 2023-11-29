@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import hljs from 'highlight.js/lib/core';
 
-import repositoriesQuery from '~/graphql/repositories/file.gql';
+import getFileQuery from '~/graphql/repositories/file.gql';
 
 interface Props {
 	fileName: string[];
@@ -18,18 +18,18 @@ const { data, pending } = useAsyncQuery<{
 			text: string;
 		};
 	};
-}>(repositoriesQuery, {
+}>(getFileQuery, {
 	owner: props.owner,
 	name: props.repoName,
 	expression: `${props.refName}:${props.fileName.join('/')}`
 });
 
-const text = computed(() =>
-	hljs.highlightAuto(data.value?.repository?.object?.text || '')
-);
+const text = computed(() => {
+	return hljs.highlightAuto(data.value?.repository?.object?.text || '').value;
+});
 </script>
 <template>
 	<div v-loading="pending" class="text-start pa-4" style="line-height: 190%">
-		<pre>{{ text.value }}</pre>
+		<pre v-html="text"></pre>
 	</div>
 </template>

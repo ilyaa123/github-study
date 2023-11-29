@@ -1,20 +1,21 @@
 <script setup lang="ts">
-import { User } from './types/user';
-
 const route = useRoute();
 
-const isAuthLoading = useState<boolean>('isAuthLoading');
-
-const user = useState<User | null>('user');
+const { userState } = useUser();
 
 const isPageLoading = computed(() =>
-	typeof route.meta.authGuard === 'boolean' ? !user.value?.id : false
+	typeof route.meta.authGuard === 'boolean'
+		? !!userState.value.user?.id
+		: false
 );
 </script>
 <template>
 	<NuxtLayout>
+		<div
+			v-loading.fullscreen.lock="userState.isAuthLoading || isPageLoading"
+		/>
 		<nuxt-loading-indicator :throttle="0" color="var(--el-color-primary)" />
-		<NuxtPage v-loading.fullscreen.lock="isAuthLoading || isPageLoading" />
+		<NuxtPage />
 	</NuxtLayout>
 </template>
 <style lang="scss">

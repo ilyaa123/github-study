@@ -1,7 +1,8 @@
 export default defineNuxtRouteMiddleware(async (to) => {
 	const code = to.query?.code;
 	const { getUser } = useUser();
-
+	const { onLogin } = useApollo();
+	const nuxtApp = useNuxtApp();
 	if (code) {
 		try {
 			const result = await $fetch<{ access_token: string }>(
@@ -16,23 +17,22 @@ export default defineNuxtRouteMiddleware(async (to) => {
 				}
 			);
 			if (result?.access_token) {
-				const { onLogin } = useApollo();
-				await onLogin(result.access_token).then(async () => {
-					await getUser({
-						onResult() {
-							return navigateTo('/');
-						},
-						onError() {
-							return navigateTo('/login');
-						}
+				try {
+					onLogin(result.access_token).then(async () => {
+						await getUser({
+							token: result.access_token
+						});
 					});
-					return navigateTo('/');
-				});
+
+					return nuxtApp.runWithContext(() => navigateTo('/'));
+				} catch (error) {
+					return nuxtApp.runWithContext(() => navigateTo('/blank'));
+				}
 			} else {
-				return navigateTo('/login');
+				return nuxtApp.runWithContext(() => navigateTo('/login'));
 			}
 		} catch (error) {
-			return navigateTo('/login');
+			return nuxtApp.runWithContext(() => navigateTo('/login'));
 		}
 	}
 });

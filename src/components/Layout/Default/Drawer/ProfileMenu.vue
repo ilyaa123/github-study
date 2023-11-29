@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const { drawerState, setProfileAsideOpen } = useDrawers();
 
-const { user, logOut } = useUser();
+const { userState, logOut } = useUser();
 
 const router = useRouter();
 </script>
@@ -13,7 +13,10 @@ const router = useRouter();
 		@close="setProfileAsideOpen(false)"
 	>
 		<template #header>
-			<el-text size="large">Hi, {{ user?.name || user?.login }}!</el-text>
+			<el-text size="large"
+				>Hi,
+				{{ userState.user?.name || userState.user?.login }}!</el-text
+			>
 		</template>
 		<template #default>
 			<el-divider style="margin-top: 0 !important" />

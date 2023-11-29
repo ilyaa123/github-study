@@ -11,7 +11,7 @@ import { Commit } from '~/types/commit';
 
 const route = useRoute();
 const router = useRouter();
-const { user } = useUser();
+const { userState } = useUser();
 const name = route.params.name as string;
 const owner = route.params.owner as string;
 
@@ -73,7 +73,7 @@ const defaultBranchName = computed(() => {
 const isStarChecked = computed({
 	get: () => {
 		return !!data?.value?.repository?.stargazers?.nodes?.find(
-			(item) => item.login === user.value?.login
+			(item) => item.login === userState.value?.user?.login
 		);
 	},
 	set: (value: boolean) => {

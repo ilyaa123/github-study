@@ -1,70 +1,79 @@
-import repositoriesQuery from '~/graphql/user/get.gql';
 import { User } from '~/types/user';
 
 interface GetUserParams {
-	onResult?: (res: { viewer: User }) => void;
+	token?: string;
+	onResult?: (res: User) => void;
 	onError?: () => void;
 }
 
 export const useUser = () => {
 	const token = useCookie('gitToken');
 
-	const user = useState<User | null>('user', () => null);
+	const userState = useState<{ user: User | null; isAuthLoading: boolean }>(
+		'userState',
+		() => ({
+			user: null,
+			isAuthLoading: false
+		})
+	);
 
-	const isAuth = useState('isAuth', () => false);
+	const getUser = async (params: GetUserParams | void) => {
+		const githubApi = process.server
+			? process.env.NUXT_BASE_GITHUB_API
+			: useRuntimeConfig().public.baseGithubApi;
 
-	const isAuthLoading = useState('isAuthLoading', () => false);
+		userState.value = {
+			user: null,
+			isAuthLoading: true
+		};
 
-	const getUser = (params: GetUserParams | void) => {
-		isAuthLoading.value = true;
+		return await $fetch<User>(githubApi + '/user', {
+			method: 'GET',
+			headers: {
+				Authorization: `Bearer ${params?.token || token.value}`
+			}
+		})
+			.then((res) => {
+				userState.value = {
+					...userState.value,
+					user: res
+				};
 
-		try {
-			const { onResult, onError } = useQuery<{ viewer: User }>(
-				repositoriesQuery
-			);
-
-			return new Promise((resolve, reject) => {
-				resolve(
-					onResult((res) => {
-						isAuthLoading.value = false;
-						user.value = res.data.viewer;
-						isAuth.value = true;
-						if (params?.onResult) {
-							params.onResult(res.data);
-						}
-					})
-				);
-
-				reject(
-					onError(() => {
-						isAuthLoading.value = false;
-						token.value = null;
-						isAuth.value = false;
-						user.value = null;
-						if (params?.onError) {
-							params.onError();
-						}
-					})
-				);
+				if (params?.onResult) {
+					return params.onResult(res);
+				}
+			})
+			.catch(() => {
+				token.value = null;
+				userState.value = {
+					...userState.value,
+					user: null
+				};
+				if (params?.onError) {
+					return params.onError();
+				}
+			})
+			.finally(() => {
+				userState.value = {
+					...userState.value,
+					isAuthLoading: false
+				};
 			});
-		} catch {}
 	};
 
 	const logOut = (fn?: () => void) => {
 		token.value = null;
-		isAuth.value = false;
-		user.value = null;
+		userState.value.user = null;
 		if (fn) fn();
 	};
 
-	// const isAuth = computed(() => {
-	// 	return !!user.value && !!token.value;
-	// });
+	const isAuth = computed(() => {
+		return !!userState.value.user && !!token.value;
+	});
 
 	return {
-		user,
+		userState,
 		isAuth,
-		isAuthLoading,
 		getUser,
 		logOut
 	};

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Search } from '@element-plus/icons-vue';
+
 interface IQueryFewUser {
 	viewer: {
 		avatarUrl: string;
@@ -13,7 +15,7 @@ const queryFewUser = gql`
 	}
 `;
 
-const { setProfileAsideOpen } = useDrawers();
+const { setProfileAsideOpen, setSearchModalOpen } = useDrawers();
 
 const { data } = await useAsyncQuery<IQueryFewUser>(queryFewUser);
 </script>
@@ -27,10 +29,30 @@ const { data } = await useAsyncQuery<IQueryFewUser>(queryFewUser);
 				></el-text
 			>
 		</el-col>
-		<el-col :span="12" :md="4" style="text-align: right">
-			<div class="toolbar__profile" @click="setProfileAsideOpen(true)">
-				<el-avatar shape="square" :src="data?.viewer?.avatarUrl" />
-			</div>
+		<el-col :span="12" :md="8" style="text-align: right">
+			<el-row
+				class="items-center"
+				style="
+					height: 100%;
+					flex-wrap: nowrap;
+					justify-content: flex-end;
+					gap: 10px;
+				"
+			>
+				<el-input
+					placeholder="Search"
+					style="max-width: 300px"
+					size="large"
+					:suffix-icon="Search"
+					@click="setSearchModalOpen(true)"
+				/>
+				<div
+					class="toolbar__profile"
+					@click="setProfileAsideOpen(true)"
+				>
+					<el-avatar shape="square" :src="data?.viewer?.avatarUrl" />
+				</div>
+			</el-row>
 		</el-col>
 	</el-row>
 </template>
