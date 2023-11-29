@@ -1,6 +1,7 @@
 const useDrawers = () => {
 	const drawerState = useState('drawers', () => ({
-		profileAsideOpen: false
+		profileAsideOpen: false,
+		searchModalOpen: false
 	}));
 
 	const setProfileAsideOpen = (value: boolean) => {
@@ -10,9 +11,17 @@ const useDrawers = () => {
 		};
 	};
 
+	const setSearchModalOpen = (value: boolean) => {
+		drawerState.value = {
+			...drawerState.value,
+			searchModalOpen: value
+		};
+	};
+
 	return {
 		drawerState,
-		setProfileAsideOpen
+		setProfileAsideOpen,
+		setSearchModalOpen
 	};
 };
 

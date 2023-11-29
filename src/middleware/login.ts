@@ -21,20 +21,8 @@ export default defineNuxtRouteMiddleware(async (to) => {
 					onLogin(result.access_token).then(async () => {
 						await getUser({
 							token: result.access_token
-							// onResult: () => {
-							// 	return nuxtApp.runWithContext(() =>
-							// 		navigateTo('/')
-							// 	);
-							// },
-							// onError: () => {
-							// 	return nuxtApp.runWithContext(() =>
-							// 		navigateTo('/blank')
-							// 	);
-							// }
 						});
 					});
-
-					console.log('TRUEEE');
 
 					return nuxtApp.runWithContext(() => navigateTo('/'));
 				} catch (error) {

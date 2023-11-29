@@ -1,0 +1,41 @@
+query Search($type: SearchType!, $query: String!, $limit: Int) {
+	search(type: $type, query: $query, first: $limit) {
+		pageInfo {
+			hasNextPage
+		}
+		repos: edges {
+			repo: node {
+				... on Repository {
+					id
+					name
+					description
+					owner {
+						login
+					}
+				}
+			}
+		}
+		users: edges {
+			user: node {
+				... on User {
+					id
+					avatarUrl
+					name
+					login
+				}
+			}
+		}
+		issues: edges {
+			issue: node {
+				... on Issue {
+					id
+					title
+					author {
+						login
+						avatarUrl
+					}
+				}
+			}
+		}
+	}
+}
